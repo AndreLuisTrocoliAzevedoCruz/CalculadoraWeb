@@ -84,7 +84,7 @@ class Calculadora {
                 // PERIGO: DIVISÃO POR ZERO
                 if (num2 == 0) {
                     this.estadoErro = true;
-                    this.nrVisor = 'ERRO!';
+                    this.nrVisor = 'ERRO';
                     return;
                 }
                 resultado = num1 / num2;
@@ -130,12 +130,18 @@ class Calculadora {
         this.memoria = 0;
     }
     
+    // RECEBE A RAIZ QUADRADA
+    raizQuadrada() {
+        this.nrVisor = String(Math.sqrt(parseFloat(this.nrVisor)).toFixed(10));
+        atualizaVisor();
+    }
+
+    // RECEBE O QUADRADO
+    aoQuadrado() {
+        this.nrVisor = String(Math.pow(parseFloat(this.nrVisor), 2).toFixed(10));
+        atualizaVisor();
+    }
 }
-
-
-// ========================================================================
-//      REAÇÃO A EVENTOS DO MOUSE
-// ========================================================================
 
 // Exibe o conteúdo do visor
 let atualizaVisor = () => {
@@ -190,8 +196,17 @@ let teclaCLM = () => {
     calculadora.teclaCLM();
 }
 
+// RECEBE A RAIZ QUADRADA
+let raizQuadrada = () => {
+    calculadora.raizQuadrada();
+    atualizaVisor();
+}
 
+// RECEBE O QUADRADO
+let aoQuadrado = () => {
+    calculadora.aoQuadrado();
+    atualizaVisor();
+}
 
 // ==========  INICIALIZAÇÃO ===================
 let calculadora = new Calculadora();
-
