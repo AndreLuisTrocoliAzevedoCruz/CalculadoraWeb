@@ -212,6 +212,8 @@ let defineOp = (op) => {
         atualizaVisor();
     }
     calculadora.defineOperacao(op);
+    let teclaOperacao = document.querySelector(`.tecla-esp[data-operacao="${op}"]`);
+    selecionarOperacao(teclaOperacao);
 }
 
 // CALCULA A OPERAÇÃO
@@ -309,6 +311,28 @@ let inverso = () => {
     atualizaVisor();
 }
 
+// Função para adicionar classe 'selected' apenas à tecla de operação selecionada
+let selecionarOperacao = (element) => {
+    let teclasOperacoes = document.querySelectorAll('.tecla-esp.operacao');
+    teclasOperacoes.forEach(tecla => {
+        if (tecla !== element) {
+            tecla.classList.remove('selected');
+        }
+    });
+    element.classList.add('selected');
+}
+
+// Adiciona um evento de clique a todas as teclas
+let todasTeclas = document.querySelectorAll('.tecla');
+todasTeclas.forEach(tecla => {
+    tecla.addEventListener('click', () => {
+        // Remove a classe 'selected' de todas as teclas de operação
+        let teclasOperacoes = document.querySelectorAll('.tecla-esp.operacao');
+        teclasOperacoes.forEach(teclaOp => {
+            teclaOp.classList.remove('selected');
+        });
+    });
+});
 
 // ==========  INICIALIZAÇÃO ===================
 let calculadora = new Calculadora();

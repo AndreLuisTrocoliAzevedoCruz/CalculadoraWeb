@@ -64,3 +64,13 @@ body {
     height: 63px; /* Altura fixa */
 overflow: hidden; /* Oculta conteúdo que ultrapassa a altura definida */
 }
+
+.tecla-cinza { /* Nova classe para as teclas C e CLM */
+    background-color: lightgray; 
+    color: black; 
+}
+
+.tecla-esp.selected {
+    background-color: #98c1db; /* Altere para a cor desejada */
+    color: black;
+}
