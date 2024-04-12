@@ -6,6 +6,7 @@ class Calculadora {
         this.iniciouSegundo = false;
         this.estadoErro = false;
         this.memTemp = '';
+        this.numMemoria = 0;
         this.memoria = 0;
         this.op = {
             NOP: 0,
@@ -14,12 +15,17 @@ class Calculadora {
             SUB: 3,
             SUM: 4
         };
+        this.memoriaAtiva = false; // Indica se há um valor na memória
         this.opAtual = this.op.NOP;
     }
 
-    // Retorna o contúdo do visor
+    // Retorna o conteúdo do visor
     mostraVisor() {
-        return this.nrVisor;
+        if (this.memoriaAtiva) {
+            return this.nrVisor + ' M'; // Adiciona ' M' ao número no visor
+        } else {
+            return this.nrVisor;
+        }
     }
 
     // Recebe um dígito
@@ -109,25 +115,37 @@ class Calculadora {
     // tecla M+ : acrescenta à memória o número no visor
     teclaMmais() {
         if (this.estadoErro) return;
-        this.memoria += parseFloat(this.nrVisor);
+        this.numMemoria = parseFloat(this.nrVisor); // Armazena o número atual antes de uma operação de memória
+        this.memoria += this.numMemoria; // Soma numMemoria à memória
+        this.memoriaAtiva = true; // Ativa a indicação de memória
+        this.nrVisor = '0'; // Limpa o visor após adicionar à memória
     }
 
     // tecla M- : subtrai da memória o número no visor
     teclaMmenos() {
         if (this.estadoErro) return;
-        this.memoria -= parseFloat(this.nrVisor);
+        this.numMemoria = parseFloat(this.nrVisor); // Armazena o número atual antes de uma operação de memória
+        this.memoria -= this.numMemoria; // Subtrai numMemoria da memória
+        this.memoriaAtiva = true; // Ativa a indicação de memória
+        this.nrVisor = '0'; // Limpa o visor após subtrair da memória
     }
 
     // tecla RM : recupera o conteúdo da memória -> coloca no visor
     teclaRM() {
         if (this.estadoErro) return;
-        this.nrVisor = String(this.memoria);
+        let resultado = this.memoria;
+        if (this.memoriaAtiva) {
+            resultado += parseFloat(this.nrVisor);
+        }
+        this.nrVisor = String(resultado);
+        this.memoriaAtiva = true; // Ativa a indicação de memória
     }
 
     // tecla CLM : limpa totalmente o conteúdo da memória -> atribui 0
     teclaCLM() {
         if (this.estadoErro) return;
         this.memoria = 0;
+        this.memoriaAtiva = false; // Desativa a indicação de memória
     }
     
     // RECEBE A RAIZ QUADRADA
@@ -231,11 +249,13 @@ let teclaC = () => {
 // M+ ACRESCENTA À MEMÓRIA O NÚMERO ATUAL NO VISOR
 let teclaMmais = () => {
     calculadora.teclaMmais();
+    atualizaVisor();
 }
 
 // M- SUBTRAI DA MEMÓRIA O NÚMERO ATUAL NO VISOR
 let teclaMmenos = () => {
     calculadora.teclaMmenos();
+    atualizaVisor();
 }
 
 // PÕE NO VISOR O CONTEÚDO DA MEMÓRIA
@@ -247,6 +267,13 @@ let teclaRM = () => {
 // APAGA TODO O CONTEÚDO DA MEMÓRIA
 let teclaCLM = () => {
     calculadora.teclaCLM();
+    atualizaVisor();
+
+    // Remove a classe 'selected' de todas as teclas de operação
+    let teclasOperacoes = document.querySelectorAll('.tecla-esp.operacao');
+    teclasOperacoes.forEach(teclaOp => {
+        teclaOp.classList.remove('selected');
+    });
 }
 
 // RECEBE A RAIZ QUADRADA
