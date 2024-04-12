@@ -141,6 +141,57 @@ class Calculadora {
         this.nrVisor = String(Math.pow(parseFloat(this.nrVisor), 2).toFixed(10));
         atualizaVisor();
     }
+
+    trocaSinal() {
+        if (this.estadoErro) return;
+   
+        if (this.nrVisor !== '0') {
+            this.nrVisor = (parseFloat(this.nrVisor) * -1).toString();
+        }
+        }
+        inverso() {
+            if (this.estadoErro) return;
+       
+            let num = parseFloat(this.nrVisor);
+       
+            // Evita divisão por zero
+            if (num === 0) {
+                this.estadoErro = true;
+                this.nrVisor = 'ERRO!';
+                atualizaVisor();
+                return;
+            }
+            this.nrVisor = (1 / num).toString();
+            atualizaVisor();
+            }
+    
+
+    // Adiciona um método para reiniciar a calculadora
+    ligarCalculadora() {
+        this.nrVisor = '0';
+        this.ptDecimal = false;
+        this.memTemp = '';
+        this.iniciouSegundo = false;
+        this.estadoErro = false;
+        this.opAtual = this.op.NOP;
+    }
+
+    // Calculo da porcentagem
+    calculaPorcentagem() {
+        if (this.estadoErro) return;
+        let num = parseFloat(this.nrVisor);
+        let porcentagem = num / 100;
+
+        if (this.opAtual === this.op.SUM || this.opAtual === this.op.SUB) {
+            porcentagem *= parseFloat(this.memTemp || 1);
+        }
+
+        // Limitar o número de casas decimais para duas
+        porcentagem = parseFloat(porcentagem.toFixed(2));
+
+        this.nrVisor = String(porcentagem);
+    }
+
 }
 
 // Exibe o conteúdo do visor
@@ -207,6 +258,57 @@ let aoQuadrado = () => {
     calculadora.aoQuadrado();
     atualizaVisor();
 }
+
+// Função para desligar a calculadora
+let desligarCalculadora = () => {
+    calculadora = null; // Remove a referência à calculadora
+    document.getElementById('visor-id').innerHTML = ''; // Limpa o visor
+
+
+    // Remove a classe 'selected' de todas as teclas de operação
+    let teclasOperacoes = document.querySelectorAll('.tecla-esp.operacao');
+    teclasOperacoes.forEach(teclaOp => {
+        teclaOp.classList.remove('selected');
+    });
+}
+
+// Função para ligar a calculadora
+let ligarCalculadora = () => {
+    if (!calculadora) {
+        calculadora = new Calculadora(); // Cria uma nova instância da calculadora
+        document.getElementById('visor-id').innerHTML = '0'; // Define o visor como "0"
+    } else {
+        calculadora.ligarCalculadora(); // Reinicia a calculadora
+        atualizaVisor(); // Atualiza o visor
+    }
+
+
+    // Remove a classe 'selected' de todas as teclas de operação
+    let teclasOperacoes = document.querySelectorAll('.tecla-esp.operacao');
+    teclasOperacoes.forEach(teclaOp => {
+        teclaOp.classList.remove('selected');
+    });
+}
+
+// Calcula a porcentagem do número exibido no visor e atualiza o visor.
+let teclaPorcentagem = () => {
+    calculadora.calculaPorcentagem();
+    atualizaVisor();
+}
+
+// Troca o sinal do número atual no visor
+let trocaSinal = () => {
+    calculadora.trocaSinal();
+    atualizaVisor();
+}
+
+
+// Calcula o inverso do número atual no visor
+let inverso = () => {
+    calculadora.inverso(); 
+    atualizaVisor();
+}
+
 
 // ==========  INICIALIZAÇÃO ===================
 let calculadora = new Calculadora();

@@ -61,4 +61,6 @@ body {
     font-size: 2.2em; /* Tamanho da fonte aumentado */
     font-weight: bold; /* Fonte em negrito */
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    height: 63px; /* Altura fixa */
+overflow: hidden; /* Oculta conteúdo que ultrapassa a altura definida */
 }
