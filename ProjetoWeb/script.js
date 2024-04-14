@@ -209,6 +209,25 @@ class Calculadora {
 
         this.nrVisor = String(porcentagem);
     }
+    // Calculo da porcentagem
+      calculaPorcentagem() {
+        if (this.estadoErro) return;
+        let num = parseFloat(this.nrVisor);
+        let porcentagem = num / 100;
+
+
+        if (this.opAtual === this.op.SUM || this.opAtual === this.op.SUB) {
+            porcentagem *= parseFloat(this.memTemp || 1);
+        }
+
+
+        // Limitar o número de casas decimais para duas
+        porcentagem = parseFloat(porcentagem.toFixed(2));
+
+
+        this.nrVisor = String(porcentagem);
+    }
+
 
 }
 
@@ -276,17 +295,50 @@ let teclaCLM = () => {
     });
 }
 
-// RECEBE A RAIZ QUADRADA
+// Calcula a raiz quadrada do número atual no visor
 let raizQuadrada = () => {
-    calculadora.raizQuadrada();
+    if (calculadora.estadoErro) return;
+
+
+    let num = parseFloat(calculadora.nrVisor);
+
+
+    // Evita raiz quadrada de números negativos
+    if (num < 0) {
+        calculadora.estadoErro = true;
+        calculadora.nrVisor = 'ERRO!';
+        atualizaVisor();
+        return;
+    }
+
+
+    // Calcula a raiz quadrada
+    let resultado = Math.sqrt(num);
+
+
+    // Limita o número de casas decimais
+    resultado = parseFloat(resultado.toFixed(5));
+
+
+    // Atualiza o visor com o resultado da raiz quadrada
+    calculadora.nrVisor = String(resultado);
     atualizaVisor();
 }
+
 
 // RECEBE O QUADRADO
 let aoQuadrado = () => {
     calculadora.aoQuadrado();
     atualizaVisor();
-}
+      if (this.estadoErro) return;
+   
+        let num = parseFloat(this.nrVisor);
+        let resultado = num * num;
+   
+        this.nrVisor = String(resultado).slice(0, 10);
+        }
+
+
 
 // Função para desligar a calculadora
 let desligarCalculadora = () => {

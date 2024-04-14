@@ -74,3 +74,16 @@ overflow: hidden; /* Oculta conteúdo que ultrapassa a altura definida */
     background-color: #98c1db; /* Altere para a cor desejada */
     color: black;
 }
+.tecla-esp.operacao,
+.tecla-esp.igual {
+    padding: 20px; /* Ajuste o tamanho das teclas de operações e igual conforme necessário */
+    background-color: #f4f4f4; /* Cor de fundo suave */
+    color: #333333; /* Cor do texto */
+    border-radius: 10px; /* Borda arredondada */
+    font-size: 2em; /* Tamanho da fonte aumentado */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    display: flex; /* Centralizar conteúdo verticalmente */
+    justify-content: center; /* Centralizar conteúdo horizontalmente */
+    align-items: center; /* Centralizar conteúdo verticalmente */
+}
+    
