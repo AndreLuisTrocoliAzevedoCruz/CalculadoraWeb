@@ -156,24 +156,29 @@ class Calculadora {
 
     // RECEBE O QUADRADO
     aoQuadrado() {
-        this.nrVisor = String(Math.pow(parseFloat(this.nrVisor), 2).toFixed(10));
-        atualizaVisor();
+        if (this.estadoErro) return;
+    
+        let num = parseFloat(this.nrVisor);
+        let resultado = num * num;
+    
+        this.nrVisor = String(resultado).slice(0, 10);
     }
 
     trocaSinal() {
+
         if (this.estadoErro) return;
    
         if (this.nrVisor !== '0') {
             this.nrVisor = (parseFloat(this.nrVisor) * -1).toString();
         }
-        }
-        inverso() {
-            if (this.estadoErro) return;
+    }
+    inverso() {
+        if (this.estadoErro) return;
        
             let num = parseFloat(this.nrVisor);
        
             // Evita divisão por zero
-            if (num === 0) {
+        if (num === 0) {
                 this.estadoErro = true;
                 this.nrVisor = 'ERRO!';
                 atualizaVisor();
@@ -181,7 +186,7 @@ class Calculadora {
             }
             this.nrVisor = (1 / num).toString();
             atualizaVisor();
-            }
+    }
     
 
     // Adiciona um método para reiniciar a calculadora
@@ -220,14 +225,11 @@ class Calculadora {
             porcentagem *= parseFloat(this.memTemp || 1);
         }
 
-
         // Limitar o número de casas decimais para duas
         porcentagem = parseFloat(porcentagem.toFixed(2));
 
-
         this.nrVisor = String(porcentagem);
     }
-
 
 }
 
@@ -299,9 +301,7 @@ let teclaCLM = () => {
 let raizQuadrada = () => {
     if (calculadora.estadoErro) return;
 
-
     let num = parseFloat(calculadora.nrVisor);
-
 
     // Evita raiz quadrada de números negativos
     if (num < 0) {
@@ -311,20 +311,16 @@ let raizQuadrada = () => {
         return;
     }
 
-
     // Calcula a raiz quadrada
     let resultado = Math.sqrt(num);
 
-
     // Limita o número de casas decimais
     resultado = parseFloat(resultado.toFixed(5));
-
 
     // Atualiza o visor com o resultado da raiz quadrada
     calculadora.nrVisor = String(resultado);
     atualizaVisor();
 }
-
 
 // RECEBE O QUADRADO
 let aoQuadrado = () => {
@@ -338,13 +334,10 @@ let aoQuadrado = () => {
         this.nrVisor = String(resultado).slice(0, 10);
         }
 
-
-
 // Função para desligar a calculadora
 let desligarCalculadora = () => {
     calculadora = null; // Remove a referência à calculadora
     document.getElementById('visor-id').innerHTML = ''; // Limpa o visor
-
 
     // Remove a classe 'selected' de todas as teclas de operação
     let teclasOperacoes = document.querySelectorAll('.tecla-esp.operacao');
@@ -362,7 +355,6 @@ let ligarCalculadora = () => {
         calculadora.ligarCalculadora(); // Reinicia a calculadora
         atualizaVisor(); // Atualiza o visor
     }
-
 
     // Remove a classe 'selected' de todas as teclas de operação
     let teclasOperacoes = document.querySelectorAll('.tecla-esp.operacao');
